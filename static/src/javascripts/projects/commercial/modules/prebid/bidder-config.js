@@ -115,10 +115,14 @@ const getImprovePlacementId = (sizes: PrebidSize[]): number => {
 
 // Improve has to have single size as parameter if slot doesn't accept multiple sizes,
 // because it uses same placement ID for multiple slot sizes and has no other size information
-const getImproveSizeParam = (slotId: string): PrebidImproveSizeParam =>
-    slotId === 'dfp-ad--mostpop' || slotId.startsWith('dfp-ad--inline')
+const getImproveSizeParam = (slotId: string): PrebidImproveSizeParam => {
+    const key = stripTrailingNumbersAbove1(stripMobileSuffix(slotId));
+    return key.endsWith('mostpop') ||
+        key.endsWith('inline1') ||
+        (key.endsWith('inline') && config.page.contentType !== 'Article')
         ? { w: 300, h: 250 }
         : {};
+};
 
 const sonobiBidder: PrebidBidder = {
     name: 'sonobi',
