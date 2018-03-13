@@ -189,7 +189,7 @@ class GuardianConfiguration extends Logging {
   case class Auth(user: String, password: String)
 
   object contentApi {
-    val contentApiHost: String = configuration.getMandatoryStringProperty("content.api.host")
+    val contentApiHost: String = "https://internal.content.code.dev-guardianapis.com"//configuration.getMandatoryStringProperty("content.api.host")
 
     val previewHost: Option[String] = configuration.getStringProperty("content.api.preview.iam.host")
 
@@ -241,6 +241,11 @@ class GuardianConfiguration extends Logging {
   object oriel {
     lazy val orielApiKey = configuration.getStringProperty("oriel.api.key")
     lazy val orielCacheTimeInMinutes: Int = if (environment.isProd) 60 else 5
+  }
+
+  object skimlinks {
+    lazy val skimlinksId = configuration.getMandatoryStringProperty("skimlinks.id")
+    lazy val skimlinksSections = configuration.getStringProperty("skimlinks.sections").getOrElse("").split(",").toSet
   }
 
   object frontend {
